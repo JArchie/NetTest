@@ -14,9 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 import android.widget.TextView;
-
 import com.archie.library.app.Contract;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -29,8 +27,6 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import static com.archie.library.app.Contract.getApplicationContext;
 
 /**
  * 项目名:   NetTest
@@ -257,12 +253,12 @@ public final class FileUtil {
     private static void refreshDCIM() {
         if (Build.VERSION.SDK_INT >= 19) {
             //兼容android4.4版本，只扫描存放照片的目录
-            MediaScannerConnection.scanFile(getApplicationContext(),
+            MediaScannerConnection.scanFile(Contract.getContext(),
                     new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getPath()},
                     null, null);
         } else {
             //扫描整个SD卡来更新系统图库，当文件很多时用户体验不佳，且不适合4.4以上版本
-            Contract.getApplicationContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" +
+            Contract.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" +
                     Environment.getExternalStorageDirectory())));
         }
     }
@@ -271,7 +267,7 @@ public final class FileUtil {
      * 读取raw目录中的文件,并返回为字符串
      */
     public static String getRawFile(int id) {
-        final InputStream is = Contract.getApplicationContext().getResources().openRawResource(id);
+        final InputStream is = Contract.getContext().getResources().openRawResource(id);
         final BufferedInputStream bis = new BufferedInputStream(is);
         final InputStreamReader isr = new InputStreamReader(bis);
         final BufferedReader br = new BufferedReader(isr);
@@ -298,7 +294,7 @@ public final class FileUtil {
 
 
     public static void setIconFont(String path, TextView textView) {
-        final Typeface typeface = Typeface.createFromAsset(Contract.getApplicationContext().getAssets(), path);
+        final Typeface typeface = Typeface.createFromAsset(Contract.getContext().getAssets(), path);
         textView.setTypeface(typeface);
     }
 
@@ -311,7 +307,7 @@ public final class FileUtil {
         InputStreamReader isr = null;
         BufferedReader br = null;
         StringBuilder stringBuilder = null;
-        final AssetManager assetManager = Contract.getApplicationContext().getAssets();
+        final AssetManager assetManager = Contract.getContext().getAssets();
         try {
             is = assetManager.open(name);
             bis = new BufferedInputStream(is);

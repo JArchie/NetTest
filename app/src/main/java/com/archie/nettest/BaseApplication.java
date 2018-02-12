@@ -3,7 +3,6 @@ package com.archie.nettest;
 import android.app.Application;
 
 import com.archie.library.app.Contract;
-import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 /**
  * 项目名:   NetTest
@@ -15,12 +14,23 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
  */
 
 public class BaseApplication extends Application {
+    private static BaseApplication mInstance = null;
+
+    public BaseApplication(){}
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Contract.init(this)
-                .withIcon(new FontAwesomeModule())
-                .withApiHost("http://127.0.0.1/")
-                .configure();
+        Contract.init(this);
     }
+
+    public static BaseApplication getInstance(){
+        if (mInstance == null){
+            synchronized (BaseApplication.class){
+                mInstance = new BaseApplication();
+            }
+        }
+        return mInstance;
+    }
+
 }

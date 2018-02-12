@@ -1,6 +1,5 @@
 package com.archie.library.app;
 
-import android.app.Application;
 import android.content.Context;
 
 /**
@@ -13,22 +12,22 @@ import android.content.Context;
  */
 
 public final class Contract {
-    public static Configurator init(Context context) {
-        Configurator.getInstance().getContractConfigs()
-                .put(ConfigType.APPLICATION_CONTEXT, context.getApplicationContext());
-        return Configurator.getInstance();
+    private static Context mContext;
+
+    private Contract() {
+        throw new UnsupportedOperationException("you can't instantiate me...");
     }
 
-    public static Configurator getConfigurator() {
-        return Configurator.getInstance();
+    //初始化配置
+    public static void init(Context context) {
+        Contract.mContext = context.getApplicationContext();
     }
 
-    public static <T> T getConfiguration(Object key) {
-        return getConfigurator().getConfiguration(key);
-    }
-
-    public static Application getApplicationContext() {
-        return getConfiguration(ConfigType.APPLICATION_CONTEXT);
+    //获取全局上下文对象
+    public static Context getContext() {
+        if (mContext != null)
+            return mContext;
+        throw new NullPointerException("you should init first!");
     }
 
 }

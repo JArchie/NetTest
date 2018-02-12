@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">ArchieLibrary</string>
+    <string name="app_name">htgl</string>
+    <string name="tips">温馨提示</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="tips_info">您确定要退出当前账号吗？</string>
 </resources>
