@@ -1,6 +1,7 @@
 package com.archie.library.retrofit.callback;
 
 import android.support.annotation.NonNull;
+
 import com.archie.library.ui.DialogLoader;
 import com.google.gson.Gson;
 
@@ -21,7 +22,7 @@ public class RequestCallbacks implements Callback<String> {
     private final IError ERROR;
     private final Class<?> CLASS;
 
-    public RequestCallbacks(IRequest request, ISuccess success, IFailure failure, IError error,Class<?> clazz) {
+    public RequestCallbacks(IRequest request, ISuccess success, IFailure failure, IError error, Class<?> clazz) {
         this.REQUEST = request;
         this.SUCCESS = success;
         this.FAILURE = failure;
@@ -34,8 +35,12 @@ public class RequestCallbacks implements Callback<String> {
         if (response.isSuccessful()) {
             if (call.isExecuted()) {
                 if (SUCCESS != null) {
-                    Object object = new Gson().fromJson(response.body(),CLASS);
-                    SUCCESS.onSuccess(object);
+                    if (CLASS != null) {
+                        Object object = new Gson().fromJson(response.body(), CLASS);
+                        SUCCESS.onSuccess(object);
+                    } else {
+                        SUCCESS.onSuccess(response.body());
+                    }
                 }
             }
         } else {
