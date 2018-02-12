@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        RestClient.Builder().context(this)
+        RestClient.Builder()
+                .context(this)
                 .url("movie/list.json?type=hot")
                 .params("offset", 0)
                 .params("limit", 10)
